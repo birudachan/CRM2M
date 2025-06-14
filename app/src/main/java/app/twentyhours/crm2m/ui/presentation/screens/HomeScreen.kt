@@ -1,6 +1,7 @@
 package app.twentyhours.crm2m.ui.presentation.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,11 +9,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -20,11 +26,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import app.twentyhours.crm2m.ui.presentation.components.ListTitle
 import app.twentyhours.crm2m.ui.theme.CRM2MTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -70,8 +76,12 @@ private fun HomeScreenContent(
         )
         Column(
             modifier = modifier.padding(horizontal = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             UserProfileSection()
+            SearchBarSection()
+            OverallSection()
+            QuickSummarySection()
         }
     }
 }
@@ -101,15 +111,15 @@ private fun UserProfileSection(
         ) {
             Text(
                 text = name,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = TextStyle.Default.copy(
                     fontWeight = FontWeight.SemiBold,
-                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
                 ),
             )
             Text(
                 text = role,
-                color = MaterialTheme.typography.bodySmall.color.copy(alpha = 0.5f),
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
                 style = TextStyle.Default.copy(
                     fontWeight = FontWeight.Normal,
                     fontSize = MaterialTheme.typography.bodySmall.fontSize
@@ -133,6 +143,188 @@ private fun UserProfileImage(
         contentAlignment = Alignment.Center,
     ) {
         Text(text = imageUrl)
+    }
+}
+
+@Composable
+private fun SearchBarSection() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(32.dp)
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                    shape = RoundedCornerShape(4.dp),
+                )
+                .padding(start = 12.dp, end = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "Tim kiếm khách hàng...",
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                style = TextStyle.Default.copy(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                ),
+            )
+            Box(
+                modifier = Modifier
+                    .width(32.dp)
+                    .height(24.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.onBackground,
+                        shape = RoundedCornerShape(2.dp)
+                    ), contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = "Search Icon",
+                    modifier = Modifier.size(20.dp),
+                    tint = MaterialTheme.colorScheme.background,
+                )
+            }
+        }
+        Text(
+            text = "Go CIF hoac ten khach hang de tim kiem nhanh.",
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            style = TextStyle.Default.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.bodySmall.fontSize
+            ),
+        )
+    }
+}
+
+@Composable
+private fun OverallSection() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        ListTitle(title = "TONG QUAN")
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                SummaryItem(
+                    modifier = Modifier.weight(1f),
+                    title = "Khach hang Quan ly",
+                    value = "150",
+                )
+                SummaryItem(
+                    modifier = Modifier.weight(1f),
+                    title = "Tong du no (trd)",
+                    value = "222,000",
+                )
+            }
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+            ) {
+                SummaryItem(
+                    modifier = Modifier.weight(1f),
+                    title = "Tong HDV (trd)",
+                    value = "50,000",
+                )
+                SummaryItem(
+                    modifier = Modifier.weight(1f),
+                    title = "Viec can lam hom nay",
+                    value = "10",
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun SummaryItem(
+    title: String,
+    value: String,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.Start,
+        modifier = modifier
+            .fillMaxWidth()
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.1f),
+                shape = RoundedCornerShape(
+                    4.dp
+                )
+            )
+            .padding(12.dp)
+    ) {
+        Text(
+            text = title,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            style = TextStyle.Default.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+            ),
+        )
+        Text(
+            text = value,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = TextStyle.Default.copy(
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+            ),
+        )
+    }
+}
+
+@Composable
+private fun QuickSummarySection() {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        ListTitle(title = "THONG KE NHANH")
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            QuickSummaryItem(
+                title = "No den han, dao han",
+                value = "25",
+            )
+        }
+    }
+}
+
+@Composable
+fun QuickSummaryItem(
+    title: String,
+    value: String,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
+        Text(
+            text = title,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+            style = TextStyle.Default.copy(
+                fontWeight = FontWeight.Normal,
+                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+            ),
+        )
+        Text(
+            text = value,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = TextStyle.Default.copy(
+                fontWeight = FontWeight.SemiBold,
+                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+            ),
+        )
     }
 }
 
